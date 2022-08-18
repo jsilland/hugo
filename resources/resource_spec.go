@@ -39,6 +39,7 @@ import (
 	"github.com/gohugoio/hugo/common/loggers"
 	"github.com/gohugoio/hugo/media"
 	"github.com/gohugoio/hugo/output"
+	"github.com/gohugoio/hugo/resources/audio"
 	"github.com/gohugoio/hugo/resources/images"
 	"github.com/gohugoio/hugo/resources/page"
 	"github.com/gohugoio/hugo/resources/resource"
@@ -318,6 +319,17 @@ func (r *Spec) newResource(sourceFs afero.Fs, fd ResourceSourceDescriptor) (reso
 			return newResourceAdapter(gr.spec, fd.LazyPublish, ir), nil
 		}
 
+	}
+
+	if mimeType.MainType == "audio" {
+		audioFormat, ok := audio.AudioFormatFromMediaSubType(mimeType.SubType)
+		if ok {
+			ar := &audioResource{
+				audio:        audio.NewAudio(audioFormat, gr),
+				baseResource: gr,
+			}
+			return newResourceAdapter(gr.spec, fd.LazyPublish, ar), nil
+		}
 	}
 
 	return newResourceAdapter(gr.spec, fd.LazyPublish, gr), nil

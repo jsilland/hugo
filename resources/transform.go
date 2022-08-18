@@ -24,6 +24,7 @@ import (
 
 	"github.com/gohugoio/hugo/common/paths"
 
+	"github.com/gohugoio/hugo/resources/audio"
 	"github.com/gohugoio/hugo/resources/images"
 	"github.com/gohugoio/hugo/resources/images/exif"
 	"github.com/spf13/afero"
@@ -213,6 +214,10 @@ func (r *resourceAdapter) Exif() *exif.ExifInfo {
 	return r.getImageOps().Exif()
 }
 
+func (r *resourceAdapter) AudioTags() *audio.AudioTags {
+	return r.getAudioOps().AudioTags()
+}
+
 func (r *resourceAdapter) Key() string {
 	r.init(false, false)
 	return r.target.(resource.Identifier).Key()
@@ -305,6 +310,16 @@ func (r *resourceAdapter) getImageOps() images.ImageResourceOps {
 	}
 	r.init(false, false)
 	return img
+}
+
+func (r *resourceAdapter) getAudioOps() audio.AudioResourceOps {
+	audio, ok := r.target.(audio.AudioResourceOps)
+	if !ok {
+		fmt.Println(r.MediaType().SubType)
+		panic("this method is only available for audio resources")
+	}
+	r.init(false, false)
+	return audio
 }
 
 func (r *resourceAdapter) getMetaAssigner() metaAssigner {

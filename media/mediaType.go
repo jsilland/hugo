@@ -268,6 +268,12 @@ var (
 	WEBMType = newMediaType("video", "webm", []string{"webm"})
 	GPPType  = newMediaType("video", "3gpp", []string{"3gpp", "3gp"})
 
+	// Common audio types
+	MP3Type      = newMediaType("audio", "mpeg", []string{"mp3"})
+	AACType      = newMediaType("audio", "aac", []string{"aac"})
+	FLACType     = newMediaType("audio", "flac", []string{"flac"})
+	OGGAudioType = newMediaType("audio", "ogg", []string{"ogg"})
+
 	OctetType = newMediaType("application", "octet-stream", nil)
 )
 
@@ -307,6 +313,10 @@ var DefaultTypes = Types{
 	OpenTypeFontType,
 	TrueTypeFontType,
 	PDFType,
+	MP3Type,
+	AACType,
+	FLACType,
+	OGGAudioType,
 }
 
 func init() {
